@@ -38,10 +38,10 @@ int main()
                     if (kol == 0)
                     {
                          kol++;
-                         printf("%d: ", k / (a + 1) + 1);
+                         printf("%d => ", k / (a + 1) + 1);
                     }
                }
-               k += a - 1;
+               k += a - 1; //спускаемся вниз, под это элемент
           }
      }
      graf = fopen("graf.gv", "w");
