@@ -3,58 +3,48 @@
 
 int main()
 {
-    FILE *matrix, *graf;
-    char mas[100];
-    char s = ' ';
-    int i = 0, a = 0;
-    int k,j, rez1, kol;
-    matrix = fopen("matrix_of_incendence198.txt", "r"); // открываем файл с матрицей
-    while(!feof(matrix)){
-        if (a == 0 && s == '\n'){ // обраюатываем матрицу и записываем в массив
-            a = i;
-        }
-        if (s == '1' || s == '0'){
-            mas[i] = s;
-            i++;
-        }
-        fscanf(matrix, "%c", &s);
-    } 
-    for ( j = 1; j <= a; j++){ // выводим список смежности
-        kol = 0; 
-        for ( k = j; k <= i; k++){
-            if(mas[k-1] == '1'){
-                if (kol > 0){
-                    printf("%d\n", k/(a+1)+1);
-                    break;
-                }
-                if (kol == 0){
-                    kol++;
-                    printf("%d: ", k/(a+1)+1);
-                }
-            }
-            k += a-1; 
-        }
+  FILE *f1, *f2;
+  char arr[1001][1001], s, u;
+  int i = 0, j = 0;
+  f1 = fopen("matrix_of_incendence18.txt", "r"); // открываем файл
+  while (!feof(f1))
+  {
+    fscanf(f1, "%c", &s);
+    if (s != ' ' && s != '\n')
+    {
+      arr[i][j] = s; // записываем матрицу в массив
+      j++;
+      if (j == 20)
+      {
+        i++;
+        j = 0;
+      }
     }
-    graf = fopen("graf.gv", "w"); // создаем файл для GraphViz
-    fprintf(graf, "digraph Grah {\n"); 
-    for (j = 1; j <= a; j++){
-        kol = 0;
-        for (k = j; k <= i; k++){
-            if(mas[k-1] == '1'){
-                if (kol > 0){
-                    fprintf(graf, "\"%d\"\n",  k/(a+1)+1); // записываем в файл данные для отображения в графвизе графа
-                    break;
-                }
-                if (kol == 0){
-                    kol++;
-                    fprintf(graf, "\"%d\"-> ",  k/(a+1)+1);
-                }
-            }
-            k += a-1;
+  f2 = fopen("graf.gv", "w"); // создаем файл для Graphviz
+  fprintf(f2, "graph grath {\n"); // Первая строка, чтобы Graphviz октрыл его правильно
+  for (int a = 0; a < 20; a++) // записываем список смежности в gv файл
+  {
+    u = -1;
+    for (int y = 0; y < 5; y++)
+    {
+      if (arr[y][a] != '0')
+      {
+        if (u == -1)
+        {
+          fprintf(f2, "%d", y + 1);
+          printf("%d", y + 1);
+          u = 0;
         }
+        else
+        {
+          printf(" -- %d", y + 1);
+          fprintf(f2, " -- %d", y + 1);
+        }
+      }
     }
-    fprintf(graf, "}"); 
-    fclose(graf); // закрываем файл
-
-    return 0; 
-}   
+    fprintf(f2, ";\n");
+    printf(";\n");
+  }
+  fprintf(f2, "}");
+  fclose(f2); // закрываем и сохраняем файл
+}
